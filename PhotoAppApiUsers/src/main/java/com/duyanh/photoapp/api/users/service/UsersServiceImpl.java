@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.duyanh.photoapp.api.users.data.UserEntity;
@@ -18,7 +19,7 @@ import com.duyanh.photoapp.api.users.shared.UserDto;
 public class UsersServiceImpl implements UsersService {
 	
 	UsersRepository usersRepository;
-//	BCryptPasswordEncoder bCryptPasswordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	//RestTemplate restTemplate;
 	Environment environment;
 	
@@ -26,11 +27,11 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	public UsersServiceImpl(UsersRepository usersRepository, 
-//			BCryptPasswordEncoder bCryptPasswordEncoder,
+			BCryptPasswordEncoder bCryptPasswordEncoder,
 			Environment environment)
 	{
 		this.usersRepository = usersRepository;
-//		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.environment = environment;
 	}
  
@@ -39,7 +40,7 @@ public class UsersServiceImpl implements UsersService {
 		// TODO Auto-generated method stub
 		
 		userDetails.setUserId(UUID.randomUUID().toString());
-		userDetails.setEncryptedPassword("Test");
+		userDetails.setEncryptedPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
 		
 		ModelMapper modelMapper = new ModelMapper(); 
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
