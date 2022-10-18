@@ -17,9 +17,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.appsdeveloperblog.photoapp.api.users.service.UsersService;
-import com.appsdeveloperblog.photoapp.api.users.shared.UserDto;
-import com.appsdeveloperblog.photoapp.api.users.ui.model.LoginRequestModel;
+import com.duyanh.photoapp.api.users.service.UsersService;
+import com.duyanh.photoapp.api.users.shared.UserDto;
+import com.duyanh.photoapp.api.users.ui.model.LoginRequestModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Jwts;

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.duyanh.photoapp.api.users.service.UsersService;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
 @Configuration
 @EnableWebSecurity
@@ -18,7 +19,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	private Environment environment;
 	private UsersService usersService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Autowired
 	public WebSecurity(Environment environment, UsersService usersService, BCryptPasswordEncoder bCryptPasswordEncoder)
 	{
@@ -26,12 +27,27 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		this.usersService = usersService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/**").permitAll();
+		http.authorizeRequests().antMatchers("/users/**").permitAll()
+		.and()
+		.addFilter(getAuthenticationFilter());
 		http.headers().frameOptions().disable();
 	}
 	
+	private AuthenticationFilter getAuthenticationFilter() throws Exception
+	{
+		AuthenticationFilter authenticationFilter = new AuthenticationFilter(usersService, environment, authenticationManager());
+		authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url.path"));
+		return authenticationFilter;
+	}
+	
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usersService).passwordEncoder(bCryptPasswordEncoder);
+    }
+
 
 }
