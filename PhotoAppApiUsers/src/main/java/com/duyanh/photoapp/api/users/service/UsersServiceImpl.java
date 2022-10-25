@@ -26,6 +26,8 @@ import com.duyanh.photoapp.api.users.data.UsersRepository;
 import com.duyanh.photoapp.api.users.shared.UserDto;
 import com.duyanh.photoapp.api.users.ui.model.AlbumResponseModel;
 
+import feign.FeignException;
+
 @Service
 public class UsersServiceImpl implements UsersService {
 	
@@ -104,13 +106,12 @@ public class UsersServiceImpl implements UsersService {
 //	        });
 //	        List<AlbumResponseModel> albumsList = albumsListResponse.getBody(); 
 	        
+	       
+	        	logger.info("Before calling albums Microservice");
+		        List<AlbumResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
+		        logger.info("After calling albums Microservice");
+		        userDto.setAlbums(albumsList);
 	        
-	        logger.info("Before calling albums Microservice");
-	        List<AlbumResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
-	        logger.info("After calling albums Microservice");
-	        
-			userDto.setAlbums(albumsList);
-			
 			return userDto;
 	}
 	

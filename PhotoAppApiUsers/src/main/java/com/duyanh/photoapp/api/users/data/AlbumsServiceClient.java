@@ -18,7 +18,7 @@ import feign.FeignException;
 @FeignClient(name = "albums-ws", fallbackFactory = AlbumsFallbackFactory.class)
 public interface AlbumsServiceClient {
 
-	@GetMapping("/users/{id}/albums")
+	@GetMapping("/users/{id}/albumss")
 	public List<AlbumResponseModel> getAlbums(@PathVariable String id);
 }
 
