@@ -9,10 +9,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,8 +22,6 @@ import com.duyanh.photoapp.api.users.data.UserEntity;
 import com.duyanh.photoapp.api.users.data.UsersRepository;
 import com.duyanh.photoapp.api.users.shared.UserDto;
 import com.duyanh.photoapp.api.users.ui.model.AlbumResponseModel;
-
-import feign.FeignException;
 
 @Service
 public class UsersServiceImpl implements UsersService {

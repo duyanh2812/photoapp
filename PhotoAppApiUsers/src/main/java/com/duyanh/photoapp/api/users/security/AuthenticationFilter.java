@@ -65,7 +65,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication auth) throws IOException, ServletException {
     	String userName = ((User) auth.getPrincipal()).getUsername();
     	UserDto userDetails = usersService.getUserDetailsByEmail(userName);
-    	String token_aaccess = environment.getProperty("token.secret");
         String token = Jwts.builder()
                 .setSubject(userDetails.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))

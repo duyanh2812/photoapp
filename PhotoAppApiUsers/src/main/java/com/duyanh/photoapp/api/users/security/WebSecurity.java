@@ -3,6 +3,7 @@ package com.duyanh.photoapp.api.users.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +32,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/users/**").permitAll()
+		http.authorizeRequests()
+		.antMatchers("/**").hasIpAddress(environment.getProperty("gateway.ip"))
+		.antMatchers(HttpMethod.GET, "/actuator/health").hasIpAddress(environment.getProperty("gateway.ip"))
+		.antMatchers(HttpMethod.GET, "/actuator/circuibreakerevents").hasIpAddress(environment.getProperty("gateway.ip"))
 		.and()
 		.addFilter(getAuthenticationFilter());
 		http.headers().frameOptions().disable();
